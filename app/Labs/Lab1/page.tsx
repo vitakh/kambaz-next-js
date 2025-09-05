@@ -1,6 +1,7 @@
 export default function Lab1() {
   return (
     <div id="wd-lab1">
+        <h1>Labs</h1>
       <h2>Lab 1</h2>
       <h3>HTML Examples</h3>
       <div id="wd-h-tag">
@@ -166,12 +167,13 @@ export default function Lab1() {
         <img
           id="wd-starship"
           width="400px"
+          alt="starship"
           src="https://www.staradvertiser.com/wp-content/uploads/2021/08/web1_Starship-gap2.jpg"
         />
         <br />
         Loading a local image:
         <br />
-        <img id="wd-teslabot" src="/images/teslabot.jpg" height="200px" />
+        <img id="wd-teslabot" src="/images/teslabot.jpg" height="200px" alt="teslabot"/>
       </div>
       <div id="wd-forms">
         <h4>Form Elements</h4>
@@ -182,7 +184,7 @@ export default function Lab1() {
           <label htmlFor="wd-text-fields-password">Password:</label>
           <input
             type="password"
-            value="123@#$asd"
+            defaultValue="123@#$asd"
             id="wd-text-fields-password"
           />
           <br />
@@ -306,7 +308,7 @@ export default function Lab1() {
         <label htmlFor="wd-text-fields-rating"> Rating: </label>
         <input
           type="range"
-          value="4"
+          defaultValue="4"
           max="5"
           placeholder="Doe"
           id="wd-text-fields-rating"
@@ -314,19 +316,22 @@ export default function Lab1() {
         <br />
 
         <label htmlFor="wd-text-fields-dob"> Date of birth: </label>
-        <input type="date" value="2000-01-21" id="wd-text-fields-dob" />
+        <input type="date" defaultValue="2000-01-21" id="wd-text-fields-dob" />
         <br />
       </div>
       <h4>Anchor tag</h4>
-      Please
+      Please{" "}
       <a href="https://www.lipsum.com" id="wd-lipsum">
         click here
       </a>
-      to get dummy text
+      {" "}to get dummy text
       <br />
-      {/* Please
-<a href="https://www.lipsum.com" id="wd-github">click here</a>
-to get github repo<br/> */}
+      Please{" "}
+      <a href="https://github.com/vitakh/kambaz-next-js" id="wd-github">
+        click here
+      </a>
+      {" "}to get github repo
+      <br />
     </div>
   );
 }
