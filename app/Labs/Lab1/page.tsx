@@ -195,7 +195,7 @@ export default function Lab1() {
           <input
             type="text"
             placeholder="Doe"
-            value="Wonderland"
+            defaultValue="Wonderland"
             title="The last name"
             id="wd-text-fields-last-name"
           />
