@@ -199,6 +199,37 @@ export default function Lab1() {
             title="The last name"
             id="wd-text-fields-last-name"
           />
+        <h4>Other HTML field types</h4>
+
+        <label htmlFor="wd-text-fields-email"> Email: </label>
+        <input
+          type="email"
+          placeholder="jdoe@somewhere.com"
+          id="wd-text-fields-email"
+        /><br />
+
+        <label htmlFor="wd-text-fields-salary-start"> Starting salary:</label>
+        <input
+          type="number"
+          defaultValue="100000"
+          placeholder="1000"
+          id="wd-text-fields-salary-start"
+        />
+        <br />
+
+        <label htmlFor="wd-text-fields-rating"> Rating: </label>
+        <input
+          type="range"
+          defaultValue="4"
+          max="5"
+          placeholder="Doe"
+          id="wd-text-fields-rating"
+        />
+        <br />
+
+        <label htmlFor="wd-text-fields-dob"> Date of birth: </label>
+        <input type="date" defaultValue="2000-01-21" id="wd-text-fields-dob" />
+        <br />
           <h5>Text boxes</h5>
           <label>Biography:</label>
           <br />
@@ -275,39 +306,9 @@ export default function Lab1() {
           <option value="FANTASY"> Fantasy </option>
         </select>
 
-        <h4>Other HTML field types</h4>
-
-        <label htmlFor="wd-text-fields-email"> Email: </label>
-        <input
-          type="email"
-          placeholder="jdoe@somewhere.com"
-          id="wd-text-fields-email"
-        /><br />
-
-        <label htmlFor="wd-text-fields-salary-start"> Starting salary:</label>
-        <input
-          type="number"
-          defaultValue="100000"
-          placeholder="1000"
-          id="wd-text-fields-salary-start"
-        />
-        <br />
-
-        <label htmlFor="wd-text-fields-rating"> Rating: </label>
-        <input
-          type="range"
-          defaultValue="4"
-          max="5"
-          placeholder="Doe"
-          id="wd-text-fields-rating"
-        />
-        <br />
-
-        <label htmlFor="wd-text-fields-dob"> Date of birth: </label>
-        <input type="date" defaultValue="2000-01-21" id="wd-text-fields-dob" />
-        <br />
         </form>
       </div>
+      
       <h4>Anchor tag</h4>
       Please{" "}
       <a href="https://www.lipsum.com" id="wd-lipsum">
