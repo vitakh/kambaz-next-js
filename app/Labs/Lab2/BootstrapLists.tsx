@@ -1,3 +1,5 @@
+'use client';
+
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 
 export default function BootstrapLists() {
@@ -48,8 +50,7 @@ export default function BootstrapLists() {
           >
             Ender&apos;s Game
           </ListGroupItem>
-          <ListGroupItem >
-          {/* action onClick={() => alert("New book added")} */}
+          <ListGroupItem action onClick={() => alert("New book added")}>
             Add another book
           </ListGroupItem>
         </ListGroup>
