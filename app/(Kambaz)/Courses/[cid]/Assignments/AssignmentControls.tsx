@@ -1,13 +1,14 @@
 "use client";
 
-import { Button, Form, InputGroup } from "react-bootstrap";
+import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 
 export default function AssignmentControls() {
   return (
     <div id="wd-modules-controls" className="text-nowrap">
-      <div className="float-start d-flex justify-content-start ">
+      <Row>
+        <Col sm={6} className="float-start d-flex justify-content-start ">
         <InputGroup className="mb-3" id="wd-search-assignment">
           <InputGroup.Text>
             <CiSearch />
@@ -19,8 +20,8 @@ export default function AssignmentControls() {
             size="lg"
           />
         </InputGroup>
-      </div>
-      <div className="float-end d-flex justify-content-end">
+       </Col>
+       <Col className="float-end justify-content-end">
         <Button
           variant="danger"
           size="lg"
@@ -45,7 +46,8 @@ export default function AssignmentControls() {
           />
           Group
         </Button>
-      </div>
+      </Col>
+      </Row>
     </div>
   );
 }

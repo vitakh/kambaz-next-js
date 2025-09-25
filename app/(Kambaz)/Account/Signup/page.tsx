@@ -4,13 +4,13 @@ import { Form } from "react-bootstrap";
 
 export default function Signup() {
   return (
-    <div id="wd-signup-screen">
+    <div id="wd-signup-screen" className="ms-3">
       <h1>Sign up</h1>
-      <Form.Control placeholder="username" id="wd-username" className="mb-2"/>
-      <Form.Control placeholder="password" type="password" id="wd-password" className="mb-2"/>
+      <Form.Control placeholder="username" id="wd-username" className="mb-2 w-50"/>
+      <Form.Control placeholder="password" type="password" id="wd-password" className="mb-2 w-50"/>
       <Form.Control placeholder="verify password"
-             type="password" id="wd-password-verify" className="mb-2"/>
-      <Link  href="Profile" id="wd-signup-btn" className="btn btn-primary w-100 mb-2"> Sign up </Link>
+             type="password" id="wd-password-verify" className="mb-2 w-50"/>
+      <Link  href="Profile" id="wd-signup-btn" className="btn btn-primary w-50 mb-2"> Sign up </Link><br/>
       <Link  href="Signin"  id="wd-signin-link"> Sign in </Link>
     </div>
 );}

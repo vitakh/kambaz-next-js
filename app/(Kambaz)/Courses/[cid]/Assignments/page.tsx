@@ -13,8 +13,6 @@ export default function Assignments() {
       <AssignmentControls />
       <br />
       <br />
-      <br />
-      <br />
       <ListGroup className="rounded-0" id="wd-assignments">
         <ListGroupItem className="wd-assignment p-0 mb-5 fs-5 border-gray">
           <div className="wd-assignments-title p-3 ps-2 bg-secondary">

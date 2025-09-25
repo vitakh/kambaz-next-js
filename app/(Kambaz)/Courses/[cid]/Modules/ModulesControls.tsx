@@ -9,7 +9,7 @@ import { FaPlus, FaBan } from "react-icons/fa6";
 import GreenCheckmark from "./GreenCheckmark";
 export default function ModulesControls() {
   return (
-    <div id="wd-modules-controls" className="text-nowrap">
+    <div id="wd-modules-controls" className="text-nowrap justify-content-evenly">
       <Button
         variant="danger"
         size="lg"
@@ -24,9 +24,9 @@ export default function ModulesControls() {
           <GreenCheckmark /> Publish All
         </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem id="wd-publish-all">
+          {/* <DropdownItem id="wd-publish-all">
             <GreenCheckmark /> Publish All
-          </DropdownItem>
+          </DropdownItem> */}
           <DropdownItem id="wd-publish-all-modules-and-items">
             <GreenCheckmark /> Publish all modules and items
           </DropdownItem>

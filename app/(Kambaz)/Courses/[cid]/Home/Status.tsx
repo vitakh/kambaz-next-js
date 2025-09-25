@@ -3,10 +3,10 @@ import { FaCheckCircle } from "react-icons/fa";
 import { BiImport } from "react-icons/bi";
 import { LiaFileImportSolid } from "react-icons/lia";
 import { Button } from "react-bootstrap";
-import { FaBullseye } from "react-icons/fa6";
 import { GoBell } from "react-icons/go";
 import { IoStatsChartSharp } from "react-icons/io5";
 import { GrAnnounce } from "react-icons/gr";
+import { RiFocus3Line } from "react-icons/ri";
 
 export default function CourseStatus() {
   return (
@@ -32,7 +32,7 @@ export default function CourseStatus() {
         <LiaFileImportSolid className="me-2 fs-5" /> Import from Commons{" "}
       </Button>
       <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
-        <FaBullseye className="me-2 fs-5" /> Choose Home Page{" "}
+        <RiFocus3Line className="me-2 fs-5" /> Choose Home Page{" "}
       </Button>
       <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
         <IoStatsChartSharp className="me-2 fs-5" /> View Course Stream{" "}
