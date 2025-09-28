@@ -2,7 +2,6 @@ import { Table } from "react-bootstrap";
 
 export default function BootstrapTables() {
   return (
-    <div>
       <div id="wd-css-styling-tables">
         <h2>Tables</h2>
         <Table>
@@ -41,7 +40,7 @@ export default function BootstrapTables() {
             </tr>
           </tfoot>
         </Table>
-      </div>
+
       <div id="wd-css-responsive-tables">
         <h2>Responsive tables</h2>
         <Table responsive>
@@ -85,6 +84,6 @@ export default function BootstrapTables() {
           </tbody>
         </Table>
       </div>
-    </div>
+       </div>
   );
 }

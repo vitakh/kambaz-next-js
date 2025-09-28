@@ -1,6 +1,5 @@
 export default function Float() {
   return (
-    <div>
       <div id="wd-float-divs">
         <h2>Float</h2>
         <div>
@@ -58,18 +57,18 @@ export default function Float() {
           including versions of Lorem Ipsum.
           <div className="wd-float-done"></div>
         </div>
-      </div>
+
       <div id="wd-float-divs">
         <h2>Float</h2>
         <div>
           <div className="wd-float-left wd-dimension-portrait wd-bg-color-yellow">
-            Yellow{" "}
+            Yellow
           </div>
           <div className="wd-float-left wd-dimension-portrait wd-bg-color-blue wd-fg-color-white">
-            Blue{" "}
+            Blue
           </div>
           <div className="wd-float-left wd-dimension-portrait wd-bg-color-red">
-            Red{" "}
+            Red
           </div>
           <img
             className="wd-float-right"

@@ -4,7 +4,6 @@ import { ListGroup, ListGroupItem } from "react-bootstrap";
 
 export default function BootstrapLists() {
   return (
-    <div>
       <div id="wd-css-styling-lists">
         <h2>Favorite movies</h2>
         <ListGroup>
@@ -14,7 +13,7 @@ export default function BootstrapLists() {
           <ListGroupItem>Lord of the Ring</ListGroupItem>
           <ListGroupItem disabled>Star Wars</ListGroupItem>
         </ListGroup>
-      </div>
+        
       <div id="wd-css-hyperlink-list">
         <h3>Favorite books</h3>
         <ListGroup>
