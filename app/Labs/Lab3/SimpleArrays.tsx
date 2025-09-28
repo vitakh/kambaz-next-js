@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable prefer-const */
 /* eslint-disable no-var */
 export default function SimpleArrays() {

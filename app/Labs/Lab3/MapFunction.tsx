@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable prefer-const */
 export default function MapFunction() {
   let numberArray1 = [1, 2, 3, 4, 5, 6];
