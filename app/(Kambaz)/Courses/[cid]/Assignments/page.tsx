@@ -4,8 +4,8 @@ import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
 import { LuNotebookPen } from "react-icons/lu";
 import AssignmentControlButtons from "./AssignmentControlButtons";
-import LessonControlButtons from "../Modules/LessonControlButtons";
 import { IoMdArrowDropdown } from "react-icons/io";
+import AssignmentCheckControlButtons from "./AssignmentCheckControlButtons";
 
 export default function Assignments() {
   return (
@@ -39,7 +39,7 @@ export default function Assignments() {
                   <b>Due</b> May 13 at 11:59pm | 100 pts
                 </div>
               </div>
-              <LessonControlButtons />
+              <AssignmentCheckControlButtons />
             </ListGroupItem>
           </ListGroup>
           <ListGroup className="wd-assignment-list rounded-0">
@@ -60,7 +60,7 @@ export default function Assignments() {
                   <b>Due</b> May 20 at 11:59pm | 100 pts
                 </div>
               </div>
-              <LessonControlButtons />
+              <AssignmentCheckControlButtons />
             </ListGroupItem>
           </ListGroup>
           <ListGroup className="wd-assignment-list rounded-0">
@@ -81,7 +81,7 @@ export default function Assignments() {
                   <b>Due</b> May 27 at 11:59pm | 100 pts
                 </div>
               </div>
-              <LessonControlButtons />
+              <AssignmentCheckControlButtons />
             </ListGroupItem>
           </ListGroup>
         </ListGroupItem>
