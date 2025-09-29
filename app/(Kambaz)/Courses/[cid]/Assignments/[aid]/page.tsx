@@ -1,15 +1,21 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import * as db from "../../../../Database"; 
+import Link from "next/link";
 
 export default function AssignmentEditor() {
+  const {cid, aid} = useParams();
+  const assignments = db.assignments;
+  const assignment = assignments.find(a => a._id === aid);
   return (
     <div id="wd-assignments-editor">
       <Form className="ms-5">
         <Form.Group as={Row} className="mb-4" controlId="wd-name">
           <Col sm={7} className="pe-0">
             <Form.Label>Assignment Name</Form.Label>
-            <Form.Control type="text" defaultValue="A1"/>
+            <Form.Control type="text" defaultValue={assignment?.title}/>
           </Col>
         </Form.Group>
 
@@ -18,15 +24,7 @@ export default function AssignmentEditor() {
             <Form.Control
               as="textarea"
               rows={8}
-              defaultValue="The assignment is available online. 
-          Submit a link to the landing page of your Web application
-          running on Netlify. 
-          The landing page should include the following: 
-          * Your full name and section,
-          * Links to each of the lab assignments, 
-          * Link to the Kambaz application, 
-          * Links to all relevant source code repositories. 
-          The Kambaz application should include a link to navigate back to the landing page."
+              defaultValue={assignment?.description}
             />
           </Form.Group>
         </Col>
@@ -36,7 +34,7 @@ export default function AssignmentEditor() {
             Points
           </Form.Label>
           <Col sm={5} className="p-0">
-            <Form.Control id="wd-points" type="number" defaultValue={100} />
+            <Form.Control id="wd-points" type="number" defaultValue={assignment?.points} />
           </Col>
         </Form.Group>
 
@@ -54,6 +52,9 @@ export default function AssignmentEditor() {
               </option>
               <option value="QUIZZES">
                 QUIZZES
+              </option>
+              <option value="ANALYSIS">
+                ANALYSIS
               </option>
             </Form.Select>
           </Col>
@@ -144,7 +145,7 @@ export default function AssignmentEditor() {
               <Form.Label>
                 <b>Due</b>
               </Form.Label>
-              <Form.Control type="date" defaultValue="2024-05-13" />
+              <Form.Control type="date" defaultValue={assignment?.due_date} />
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3" controlId="wd-available-from">
@@ -154,7 +155,7 @@ export default function AssignmentEditor() {
                 </Form.Label>
                 <Form.Control
                   type="date"
-                  defaultValue="2024-05-06"
+                  defaultValue={assignment?.from_date}
                 />
               </Col>
               <Col>
@@ -162,7 +163,7 @@ export default function AssignmentEditor() {
                   <Form.Label className="mb-2">
                     <b>Until</b>
                   </Form.Label>
-                  <Form.Control type="date" defaultValue="2024-05-20" />
+                  <Form.Control type="date" defaultValue={assignment?.until_date} />
                 </Form.Group>
               </Col>
             </Form.Group>
@@ -173,15 +174,14 @@ export default function AssignmentEditor() {
           <Row>
             <Col sm={2}></Col>
             <Col sm={5} className="d-flex justify-content-end pe-0">
-          <Button variant="secondary" type="reset" id="wd-btn-cancel" >
+          <Link href={`/Courses/${cid}/Assignments`}><Button variant="secondary" type="reset" id="wd-btn-cancel" >
             Cancel
-          </Button>
-          <Button variant="danger" type="submit" id="wd-btn-save" className="ms-2">
+          </Button></Link>
+          <Link href={`/Courses/${cid}/Assignments`}><Button variant="danger" type="submit" id="wd-btn-save" className="ms-2">
             Save
-          </Button>
+          </Button></Link>
           </Col>
           </Row>
-          
         </div>
       </Form>
     </div>
