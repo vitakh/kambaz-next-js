@@ -7,10 +7,10 @@ import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
 import { LuNotebookPen } from "react-icons/lu";
 import AssignmentControlButtons from "./AssignmentControlButtons";
-import LessonControlButtons from "../Modules/LessonControlButtons";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useParams } from "next/navigation";
 import * as db from "../../../Database";
+import AssignmentCheckControlButtons from "./AssignmentCheckControlButtons";
 
 export default function Assignments() {
   const {cid} = useParams();
@@ -48,7 +48,7 @@ export default function Assignments() {
                   <b>Due</b> {assignment.due} | {assignment.points} pts
                 </div>
               </div>
-              <LessonControlButtons />
+              <AssignmentCheckControlButtons />
             </ListGroupItem>
             ))}
           </ListGroup>
