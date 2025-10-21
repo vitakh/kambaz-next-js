@@ -1,5 +1,8 @@
+"use client";
 import { ReactNode } from "react";
 import TOC from "./TOC";
+import { Provider } from "react-redux";
+import store from "./Lab4/store";
 
 
 export default function LabsLayout({
@@ -12,7 +15,11 @@ export default function LabsLayout({
          <td valign="top" width="100px">
            <TOC />
          </td>
-         <td valign="top">{children}</td>
+         <td valign="top">
+          <Provider store={store}>
+          {children}
+          </Provider>
+          </td>
        </tr>
      </tbody>
    </table>

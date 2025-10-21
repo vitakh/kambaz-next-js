@@ -1,13 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { ReactNode } from "react";
 import CourseNavigation from "./Navigation";
 import { FaAlignJustify } from "react-icons/fa6";
-import { courses } from "../../Database";
 import { useParams } from "next/navigation";
+import { useSelector } from "react-redux";
 import Breadcrumb from "./Breadcrumb";
-export default function CoursesLayout({children}: Readonly<{ children: ReactNode;}>) {
+
+export default function CoursesLayout({children}: { children: ReactNode;}) {
   const { cid } = useParams();
-  const course = courses.find((course) => course._id === cid);
+  const { courses } = useSelector((state: any) => state.coursesReducer);
+  const course = courses.find((course: any) => course._id === cid);
   return (
     <div id="wd-courses">
       <h2 className="text-danger">
