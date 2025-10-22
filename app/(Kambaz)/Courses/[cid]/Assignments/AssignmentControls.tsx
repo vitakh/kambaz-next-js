@@ -3,8 +3,10 @@
 import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
+import { redirect, useParams } from "next/navigation";
 
 export default function AssignmentControls() {
+  const { cid } = useParams();
   return (
     <div id="wd-modules-controls" className="text-nowrap">
       <Row>
@@ -27,6 +29,7 @@ export default function AssignmentControls() {
           size="lg"
           className="me-1 float-end"
           id="wd-add-assignment"
+          onClick={() => redirect(`/Courses/${cid}/Assignments/new`)}
         >
           <FaPlus
             className="position-relative me-2"

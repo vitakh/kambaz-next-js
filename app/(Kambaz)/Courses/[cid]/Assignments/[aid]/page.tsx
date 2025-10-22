@@ -1,21 +1,54 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import * as db from "../../../../Database"; 
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { addAssignment, updateAssignment } from "../reducer";
 
 export default function AssignmentEditor() {
   const {cid, aid} = useParams();
-  const assignments = db.assignments;
-  const assignment = assignments.find(a => a._id === aid);
+  const dispatch = useDispatch();
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const assignment = assignments.find((a: any) => a._id === aid);
+  
+  const [title, setTitle] = useState(assignment?.title || "");
+  const [description, setDescription] = useState(assignment?.description ||"");
+  const [points, setPoints] = useState(assignment?.points || 100);
+  const [until_date, setUntilDate] = useState(assignment?.until_date || "2025-10-29");
+  const [from_date, setFromDate] = useState(assignment?.from_date || "2025-10-22");
+  const [due_date, setDueDate] = useState(assignment?.due_date || "2025-10-29");
+  
+  const saveNewAssignment = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newAssignment = {
+      title,
+      description,
+      points,
+      until_date,
+      from_date,
+      due_date,
+      course: cid
+    };
+
+    if (aid && assignment) {
+      dispatch(updateAssignment({...newAssignment, _id: aid}));
+    } else {
+      dispatch(addAssignment(newAssignment));
+    }
+    redirect(`/Courses/${cid}/Assignments`);
+  }
+
   return (
     <div id="wd-assignments-editor">
       <Form className="ms-5">
         <Form.Group as={Row} className="mb-4" controlId="wd-name">
           <Col sm={7} className="pe-0">
             <Form.Label>Assignment Name</Form.Label>
-            <Form.Control type="text" defaultValue={assignment?.title}/>
+            <Form.Control type="text" value={title} onChange={(e) => { setTitle(e.target.value);}}/>
           </Col>
         </Form.Group>
 
@@ -24,7 +57,7 @@ export default function AssignmentEditor() {
             <Form.Control
               as="textarea"
               rows={8}
-              defaultValue={assignment?.description}
+              value={description} onChange={(e) => { setDescription(e.target.value); }}
             />
           </Form.Group>
         </Col>
@@ -34,7 +67,8 @@ export default function AssignmentEditor() {
             Points
           </Form.Label>
           <Col sm={5} className="p-0">
-            <Form.Control id="wd-points" type="number" defaultValue={assignment?.points} />
+            <Form.Control id="wd-points" type="number" 
+            value={points} onChange={(e) => { setPoints(Number(e.target.value)); }}/>
           </Col>
         </Form.Group>
 
@@ -145,7 +179,9 @@ export default function AssignmentEditor() {
               <Form.Label>
                 <b>Due</b>
               </Form.Label>
-              <Form.Control type="date" defaultValue={assignment?.due_date} />
+              <Form.Control type="date"
+              value={due_date} onChange={(e) => { setDueDate(e.target.value); }}
+               />
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3" controlId="wd-available-from">
@@ -155,7 +191,7 @@ export default function AssignmentEditor() {
                 </Form.Label>
                 <Form.Control
                   type="date"
-                  defaultValue={assignment?.from_date}
+                  value={from_date} onChange={(e) => { setFromDate(e.target.value); }}
                 />
               </Col>
               <Col>
@@ -163,7 +199,8 @@ export default function AssignmentEditor() {
                   <Form.Label className="mb-2">
                     <b>Until</b>
                   </Form.Label>
-                  <Form.Control type="date" defaultValue={assignment?.until_date} />
+                  <Form.Control type="date" defaultValue={assignment?.until_date} 
+                  value={until_date} onChange={(e) => { setUntilDate(e.target.value); }}/>
                 </Form.Group>
               </Col>
             </Form.Group>
@@ -177,9 +214,9 @@ export default function AssignmentEditor() {
           <Link href={`/Courses/${cid}/Assignments`}><Button variant="secondary" type="reset" id="wd-btn-cancel" >
             Cancel
           </Button></Link>
-          <Link href={`/Courses/${cid}/Assignments`}><Button variant="danger" type="submit" id="wd-btn-save" className="ms-2">
+          <Button variant="danger" type="submit" id="wd-btn-save" className="ms-2" onClick={saveNewAssignment}>
             Save
-          </Button></Link>
+          </Button>
           </Col>
           </Row>
         </div>

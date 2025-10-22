@@ -11,10 +11,13 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { useParams } from "next/navigation";
 import * as db from "../../../Database";
 import AssignmentCheckControlButtons from "./AssignmentCheckControlButtons";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteAssignment } from "./reducer";
 
 export default function Assignments() {
   const {cid} = useParams();
-  const assignments = db.assignments;
+  const {assignments} = useSelector((state: any) => state.assignmentsReducer);
+  const dispatch = useDispatch();
   return (
     <div>
       <AssignmentControls />
@@ -44,11 +47,11 @@ export default function Assignments() {
                 <br />
                 <div className="small">
                   <span className="text-danger">Multiple Modules</span> |{" "}
-                  <b>Not available until</b> {assignment.not_until} |<br />
-                  <b>Due</b> {assignment.due} | {assignment.points} pts
+                  <b>Not available until</b> {assignment.from_date || "TBD"} |<br />
+                  <b>Due</b> {assignment.due_date || "TBD"} | {assignment.points || 100} pts
                 </div>
               </div>
-              <AssignmentCheckControlButtons />
+              <AssignmentCheckControlButtons assignment={assignment} deleteAssignment={(assignmentId: string) => dispatch(deleteAssignment(assignmentId))}/>
             </ListGroupItem>
             ))}
           </ListGroup>

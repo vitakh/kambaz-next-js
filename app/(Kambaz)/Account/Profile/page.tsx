@@ -60,11 +60,13 @@ export default function Profile() {
            onChange={(e) => setProfile({ ...profile, dob: e.target.value })}/>
       <Form.Control defaultValue={profile.email}
            onChange={(e) => setProfile({ ...profile, email: e.target.value })} type="email" id="wd-email" className="mb-2 w-50"/>
-      <Form.Select onChange={(e) => setProfile({ ...profile, role: e.target.value })} id="wd-role" className="mb-2 w-50">
+      <Form.Select onChange={(e) => setProfile({ ...profile, role: e.target.value })} id="wd-role" className="mb-2 w-50"
+        value={profile.role || "USER"}>
         <option value="USER">User</option> 
         <option value="ADMIN">Admin</option>
         <option value="FACULTY">Faculty</option>
         <option value="STUDENT">Student</option>
+        <option value="TA">TA</option>
       </Form.Select>
       <Button variant="danger" onClick={signout} className="w-100 mb-2" id="wd-signout-btn"> Sign out </Button>
     </div> )}
