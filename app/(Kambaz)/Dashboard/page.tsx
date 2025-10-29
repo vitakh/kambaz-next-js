@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/jsx-key */
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import * as db from "../Database";
 
@@ -19,6 +19,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { addNewCourse, deleteCourse, updateCourse } from "../Courses/reducer";
 import { addEnrollment, deleteEnrollment } from "./reducer";
+import { redirect } from "next/navigation";
 
 export default function Dashboard() {
   const { courses } = useSelector((state: any) => state.coursesReducer);
@@ -48,6 +49,11 @@ export default function Dashboard() {
   const isFaculty = currentUser?.role === "FACULTY";
   const isStudent = currentUser?.role === "STUDENT";
   const [showAll, setShowAll] = useState(false);
+  useEffect(() => {
+    if (!currentUser) {
+      redirect("Account/Signin");
+    }
+  }, [currentUser]);
   const displayedCourses = showAll ? courses : enrolledCourses;
   const onEnrollmentClick = () => {
     setShowAll(!showAll);
