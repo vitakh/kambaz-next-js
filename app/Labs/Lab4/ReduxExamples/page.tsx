@@ -1,7 +1,7 @@
 "use client";
-import AddRedux from "./AddRedux/page";
-import CounterRedux from "./CounterRedux/page";
-import HelloRedux from "./HelloRedux/page";
+import AddRedux from "./AddRedux";
+import CounterRedux from "./CounterRedux";
+import HelloRedux from "./HelloRedux";
 
 export default function ReduxExamples() {
   return(
