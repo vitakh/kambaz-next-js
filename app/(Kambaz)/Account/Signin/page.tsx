@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { setCurrentUser } from "../reducer";
 import { useDispatch } from "react-redux";
-import * as db from "../../Database";
 import Link from "next/link";
 import { Button, Form } from "react-bootstrap";
 import { redirect } from "next/navigation";

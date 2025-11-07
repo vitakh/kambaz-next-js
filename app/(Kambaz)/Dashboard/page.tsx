@@ -19,7 +19,6 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { setCourses } from "../Courses/reducer";
-import { addEnrollment, deleteEnrollment } from "./reducer";
 import { redirect } from "next/navigation";
 
 export default function Dashboard() {

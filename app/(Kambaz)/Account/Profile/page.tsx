@@ -7,12 +7,12 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentUser } from "../reducer";
 import * as client from "../client";
-import { RootState } from "../../store";
 
 export default function Profile() {
  const dispatch = useDispatch();
  const { currentUser } = useSelector((state: any) => state.accountReducer);
- const [profile, setProfile] = useState<any>(currentUser || {});
+ const [profile, setProfile] = useState<any>({});
+ 
  const updateProfile = async () => {
     const updatedProfile = await client.updateUser(profile);
     dispatch(setCurrentUser(updatedProfile));
@@ -31,7 +31,7 @@ export default function Profile() {
 
  useEffect(() => {
    fetchProfile();
- }, [currentUser]);
+ }, []);
 
   return (
     <div id="wd-profile-screen" className="ms-3">
