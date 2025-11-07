@@ -9,15 +9,30 @@ import { LuNotebookPen } from "react-icons/lu";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useParams } from "next/navigation";
-import * as db from "../../../Database";
 import AssignmentCheckControlButtons from "./AssignmentCheckControlButtons";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import { deleteAssignment, setAssignments } from "./reducer";
+import * as client from "../../client";
+import { useEffect } from "react";
 
 export default function Assignments() {
   const {cid} = useParams();
   const {assignments} = useSelector((state: any) => state.assignmentsReducer);
   const dispatch = useDispatch();
+  const fetchAssignments = async () => {
+    const assignments = await client.findAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(assignments));
+  };
+  const onRemoveAssignment = async (aid: string) => {
+    await client.deleteAssignment(aid);
+    dispatch(setAssignments(assignments.filter((a: any) => a._id !== aid)));
+  };
+
+
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+
   return (
     <div>
       <AssignmentControls />
@@ -32,8 +47,7 @@ export default function Assignments() {
             <AssignmentControlButtons />
           </div>
           <ListGroup className="wd-assignment-list rounded-0">
-            {assignments.filter((assignment: any) => assignment.course === cid)
-            .map((assignment: any) => (
+            {assignments.map((assignment: any) => (
               <ListGroupItem className="wd-assignment-list-item p-3 ps-1 d-flex align-items-center">
               <BsGripVertical className="me-2 fs-3" />
               <LuNotebookPen className="me-2 fs-3 text-success" />
@@ -51,7 +65,7 @@ export default function Assignments() {
                   <b>Due</b> {assignment.due_date || "TBD"} | {assignment.points || 100} pts
                 </div>
               </div>
-              <AssignmentCheckControlButtons assignment={assignment} deleteAssignment={(assignmentId: string) => dispatch(deleteAssignment(assignmentId))}/>
+              <AssignmentCheckControlButtons assignment={assignment} deleteAssignment={(assignmentId) => onRemoveAssignment(assignmentId)}/>
             </ListGroupItem>
             ))}
           </ListGroup>

@@ -6,21 +6,51 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import * as db from "../../../../Database"; 
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import { addAssignment, updateAssignment } from "../reducer";
+import { useEffect, useState } from "react";
+import { addAssignment, updateAssignment, setAssignments } from "../reducer";
+import * as client from "../../../client";
 
 export default function AssignmentEditor() {
   const {cid, aid} = useParams();
   const dispatch = useDispatch();
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
-  const assignment = assignments.find((a: any) => a._id === aid);
-  
-  const [title, setTitle] = useState(assignment?.title || "");
-  const [description, setDescription] = useState(assignment?.description ||"");
-  const [points, setPoints] = useState(assignment?.points || 100);
-  const [until_date, setUntilDate] = useState(assignment?.until_date || "2025-10-29");
-  const [from_date, setFromDate] = useState(assignment?.from_date || "2025-10-22");
-  const [due_date, setDueDate] = useState(assignment?.due_date || "2025-10-29");
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [points, setPoints] = useState(100);
+  const [until_date, setUntilDate] = useState("");
+  const [from_date, setFromDate] = useState("");
+  const [due_date, setDueDate] = useState("");
+
+  const isNew = aid === "new";
+
+  const onCreateAssignmentForCourse = async () => {
+    if (!cid) return;
+    const courseId = Array.isArray(cid) ? cid[0] : cid;
+    const newAssignment = { title: title, course: courseId, description: description, points: points, 
+      until_date: until_date, from_date: from_date, due_date: due_date};
+    const a = await client.createAssignmentForCourse(courseId, newAssignment);
+    dispatch(setAssignments([...assignments, a]));
+  };
+
+  const onUpdateAssignment = async (assignment: any) => {
+    await client.updateAssignment(assignment);
+    const newAssignments = assignments.map((a: any) => a._id === assignment._id ? assignment : a );
+    dispatch(setAssignments(newAssignments));
+  };
+
+
+  /**
+   * "title": "Propulsion Assignment", 
+  "course": "RS101",
+  "not_until": "May 6 at 12:00am",
+  "due": "May 13 at 11:59pm",
+  "points": 100,
+  "description": "Complete the performance of a rocket engine.",
+  "until_date": "2025-05-13",
+  "from_date": "2025-05-06",
+  "due_date": "2025-05-13"
+   */
   
   const saveNewAssignment = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,13 +64,27 @@ export default function AssignmentEditor() {
       course: cid
     };
 
-    if (aid && assignment) {
-      dispatch(updateAssignment({...newAssignment, _id: aid}));
+    if (aid && !isNew) {
+      onUpdateAssignment({...newAssignment, _id: aid});
     } else {
-      dispatch(addAssignment(newAssignment));
+      onCreateAssignmentForCourse();
     }
     redirect(`/Courses/${cid}/Assignments`);
   }
+
+useEffect(() => {
+    if (!isNew && aid) {
+      const assignmentToEdit = assignments.find((a: any) => a._id === aid);
+      if (assignmentToEdit) {
+        setTitle(assignmentToEdit.title);
+        setDescription(assignmentToEdit.description);
+        setPoints(assignmentToEdit.points);
+        setFromDate(assignmentToEdit.from_date);
+        setUntilDate(assignmentToEdit.until_date);
+        setDueDate(assignmentToEdit.due_date);
+      }
+    }
+  }, [aid, assignments, isNew]);
 
   return (
     <div id="wd-assignments-editor">
@@ -199,7 +243,7 @@ export default function AssignmentEditor() {
                   <Form.Label className="mb-2">
                     <b>Until</b>
                   </Form.Label>
-                  <Form.Control type="date" defaultValue={assignment?.until_date} 
+                  <Form.Control type="date"
                   value={until_date} onChange={(e) => { setUntilDate(e.target.value); }}/>
                 </Form.Group>
               </Col>
@@ -223,4 +267,4 @@ export default function AssignmentEditor() {
       </Form>
     </div>
   );
-}
+  }

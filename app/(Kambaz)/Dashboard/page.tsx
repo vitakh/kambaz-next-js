@@ -89,36 +89,27 @@ const onEnrollmentClick = async () => {
 
 const enrollUser = async (course: any) => {
         const status = await userClient.enrollUserInCourse(course);
-        const updated = await userClient.findMyEnrollments();
-        setEnrollmentList(updated);
-        //const updatedCourses = await userClient.findMyCourses(); 
-        //dispatch(setCourses(updatedCourses));
+        setEnrollmentList((e) => [...e, { user: currentUser._id, course: course._id }]);
+        //const updated = await userClient.findMyEnrollments();
+        const updatedCourses = await userClient.findMyCourses(); 
+        dispatch(setCourses(updatedCourses));
     }
 
     const unenrollUser = async (course: any) => {
         const status = await userClient.unenrollUserFromCourse(course);  
-        const updated = await userClient.findMyEnrollments();
-        setEnrollmentList(updated); 
-        //const updatedCourses = await userClient.findMyCourses(); 
-        //dispatch(setCourses(updatedCourses));
+        //const updated = await userClient.findMyEnrollments();
+        setEnrollmentList((e) => e.filter((e) => e.course !== course._id)); 
+        const updatedCourses = await userClient.findMyCourses(); 
+        dispatch(setCourses(updatedCourses));
     }
 
   useEffect(() => {
+    if (!currentUser) {
+      redirect('/Account/Signin');
+    }
     fetchCourses();
-    if (isStudent) getMyEnrollments();
+      if (isStudent) getMyEnrollments();
   }, [currentUser]);
-
-  //const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
-
-  // const enrolledCourses = courses.filter(
-  //   (course: any) =>
-  //     course.ownerId === currentUser?._id ||
-  //     enrollments.some(
-  //       (enrollment: any) =>
-  //         enrollment.user === currentUser?._id &&
-  //         enrollment.course === course._id
-  //     )
-  // );
 
   return (
     <div className="p-4" id="wd-dashboard">
