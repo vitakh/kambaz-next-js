@@ -28,4 +28,5 @@ export default function Signup() {
       <button onClick={signup} className="wd-signup-btn btn btn-primary mb-2 w-50"> Sign up </button><br />
       <Link href="/Account/Signin" className="wd-signin-link">Sign in</Link>
     </div>
-);}
+);
+}
