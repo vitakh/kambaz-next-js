@@ -11,7 +11,7 @@ import * as client from "../client";
 export default function Profile() {
  const dispatch = useDispatch();
  const { currentUser } = useSelector((state: any) => state.accountReducer);
- const [profile, setProfile] = useState<any>({});
+ const [profile, setProfile] = useState<any>(currentUser || {});
  
  const updateProfile = async () => {
     const updatedProfile = await client.updateUser(profile);
@@ -31,7 +31,7 @@ export default function Profile() {
 
  useEffect(() => {
    fetchProfile();
- }, []);
+ }, [currentUser]);
 
   return (
     <div id="wd-profile-screen" className="ms-3">

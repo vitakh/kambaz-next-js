@@ -102,13 +102,28 @@ const enrollUser = async (course: any) => {
         dispatch(setCourses(updatedCourses));
     }
 
-  useEffect(() => {
-    if (!currentUser) {
-      redirect('/Account/Signin');
+useEffect(() => {
+  let mounted = true;
+  (async () => {
+    try {
+      const me = currentUser ?? (await userClient.getCurrentUser());
+      if (!mounted) return;
+ 
+      if (!me) {
+        redirect("/Account/Signin");
+        return;
+      }
+ 
+ 
+      await fetchCourses();
+      if (me.role === "STUDENT") await getMyEnrollments();
+    } catch (e) {
+     
+      redirect("/Account/Signin");
     }
-    fetchCourses();
-      if (isStudent) getMyEnrollments();
-  }, [currentUser]);
+  })();
+  return () => { mounted = false; };
+}, []);
 
   return (
     <div className="p-4" id="wd-dashboard">
