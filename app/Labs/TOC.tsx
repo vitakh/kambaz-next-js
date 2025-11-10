@@ -29,7 +29,17 @@ export default function TOC() {
       </Nav.Item>
       <Nav.Item>
         <Nav.Link href="https://github.com/vitakh/kambaz-next-js" target="_blank" rel="noopener noreferrer">
-          My GitHub
+          GitHub nextjs
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href="https://github.com/vitakh/kambaz-node-server-app" target="_blank" rel="noopener noreferrer">
+          GitHub node
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href="https://kambaz-node-server-app-zcbp.onrender.com" target="_blank" rel="noopener noreferrer">
+          Render
         </Nav.Link>
       </Nav.Item>
     </Nav>
