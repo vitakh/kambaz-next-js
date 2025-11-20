@@ -23,6 +23,11 @@ export default function Profile() {
    setProfile(currentUser);
  };
 
+   function parseDate(date: any) {
+    if (!date) return "";
+    return new Date(date).toISOString().split("T")[0];
+  }
+
  const signout = async () => {
   await client.signout();
    dispatch(setCurrentUser(null));
@@ -30,8 +35,12 @@ export default function Profile() {
  };
 
  useEffect(() => {
-   fetchProfile();
- }, [currentUser]);
+   if (currentUser) {
+    setProfile({ ...currentUser });
+  } else {
+    redirect("/Account/Signin");
+  }
+ }, []);
 
   return (
     <div id="wd-profile-screen" className="ms-3">
@@ -66,7 +75,7 @@ export default function Profile() {
         className="mb-2 w-50"
       />
       <Form.Control placeholder="mm-dd-yyyy" type="date" id="wd-dob" className="mb-2 w-50"
-      value={profile.dob}
+      value={parseDate(profile.dob)}
            onChange={(e) => setProfile({ ...profile, dob: e.target.value })}/>
       <Form.Control value={profile.email}
            onChange={(e) => setProfile({ ...profile, email: e.target.value })} type="email" id="wd-email" className="mb-2 w-50"/>

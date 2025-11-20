@@ -8,16 +8,17 @@ import * as courseClient from "../../client";
 export default function People() {
     const { cid } = useParams();
     const [users, setUsers] = useState<any[]>([]);
+    const courseId = Array.isArray(cid) ? cid[0] : cid;
 
     const fetchUsers = async () => {
-        if (!cid) return;
-        const data = await courseClient.findUsersForCourse(cid);
+        if (!courseId) return;
+        const data = await courseClient.findUsersForCourse(courseId);
         setUsers(data);
       };
 
     useEffect(() => {
-       if (cid) fetchUsers();}, 
-    [cid]);
+       if (courseId) fetchUsers();}, 
+    [courseId]);
     
     return (
         <div id="wd-people">
