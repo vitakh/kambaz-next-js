@@ -3,7 +3,6 @@
 
 import { redirect, useParams } from "next/navigation";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import * as db from "../../../../Database"; 
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -23,6 +22,11 @@ export default function AssignmentEditor() {
   const [due_date, setDueDate] = useState("");
 
   const isNew = aid === "new";
+
+  function parseDate(date: any) {
+    if (!date) return "";
+    return new Date(date).toISOString().split("T")[0];
+  }
 
   const onCreateAssignmentForCourse = async () => {
     if (!cid) return;
@@ -79,9 +83,9 @@ useEffect(() => {
         setTitle(assignmentToEdit.title);
         setDescription(assignmentToEdit.description);
         setPoints(assignmentToEdit.points);
-        setFromDate(assignmentToEdit.from_date);
-        setUntilDate(assignmentToEdit.until_date);
-        setDueDate(assignmentToEdit.due_date);
+        setFromDate(parseDate(assignmentToEdit.from_date));
+        setUntilDate(parseDate(assignmentToEdit.until_date));
+        setDueDate(parseDate(assignmentToEdit.due_date));
       }
     }
   }, [aid, assignments, isNew]);

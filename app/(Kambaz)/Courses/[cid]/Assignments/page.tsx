@@ -28,6 +28,11 @@ export default function Assignments() {
     dispatch(setAssignments(assignments.filter((a: any) => a._id !== aid)));
   };
 
+    function parseDate(date: any) {
+    if (!date) return "";
+    return new Date(date).toISOString().split("T")[0];
+  }
+
 
   useEffect(() => {
     fetchAssignments();
@@ -61,8 +66,8 @@ export default function Assignments() {
                 <br />
                 <div className="small">
                   <span className="text-danger">Multiple Modules</span> |{" "}
-                  <b>Not available until</b> {assignment.from_date || "TBD"} |<br />
-                  <b>Due</b> {assignment.due_date || "TBD"} | {assignment.points || 100} pts
+                  <b>Not available until</b> {parseDate(assignment.from_date) || "TBD"} |<br />
+                  <b>Due</b> {parseDate(assignment.due_date) || "TBD"} | {assignment.points || 100} pts
                 </div>
               </div>
               <AssignmentCheckControlButtons assignment={assignment} deleteAssignment={(assignmentId) => onRemoveAssignment(assignmentId)}/>

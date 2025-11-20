@@ -35,20 +35,42 @@ export default function Dashboard() {
     description: "New Description",
   });
 
+const [enrolling, setEnrolling] = useState<boolean>(false);
+
+ const findCoursesForUser = async () => {
+   try {
+     const courses = await userClient.findCoursesForUser(currentUser._id);
+     const myCourses = courses.filter(Boolean).map((c: any) => ({ ...c, enrolled: true }));
+     dispatch(setCourses(myCourses));
+   } catch (error) {
+     console.error(error);
+   }
+ };
+
+ const fetchCourses = async () => {
+   try {
+     const allCourses = await client.fetchAllCourses();
+     const enrolledCourses = await userClient.findCoursesForUser(
+       currentUser._id
+     );
+     const courses = allCourses.filter(Boolean).map((course: any) => {
+       if (enrolledCourses.filter(Boolean).find((c: any) => c._id === course._id)) {
+         return { ...course, enrolled: true };
+       } else {
+         return course;
+       }
+     });
+    dispatch(setCourses(courses.filter(Boolean)));
+   } catch (error) {
+     console.error(error);
+   }
+ };
+
   const isFaculty = currentUser?.role === "FACULTY";
   const isStudent = currentUser?.role === "STUDENT";
   const [showAll, setShowAll] = useState(false);
   const [allCourses, setAllCourses] = useState<any[]>([]);
   const [enrollments, setEnrollmentList] = useState<any[]>([]);
-
-  const fetchCourses = async () => {
-    try {
-      const courses = await client.findMyCourses();
-      dispatch(setCourses(courses));
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const onAddNewCourse = async () => {
     const newCourse = await client.createCourse(course);
@@ -72,7 +94,6 @@ export default function Dashboard() {
   }
 
   const courseIds = new Set(enrollments.map((e) => e.course));
-  const displayedCourses = showAll ? allCourses : courses;
 
 const onEnrollmentClick = async () => {
   if (!showAll && allCourses.length === 0) {
@@ -86,48 +107,62 @@ const onEnrollmentClick = async () => {
     setShowAll(!showAll);
   };
 
-const enrollUser = async (course: any) => {
-        const status = await userClient.enrollUserInCourse(course);
-        setEnrollmentList((e) => [...e, { user: currentUser._id, course: course._id }]);
-        //const updated = await userClient.findMyEnrollments();
-        const updatedCourses = await userClient.findMyCourses(); 
-        dispatch(setCourses(updatedCourses));
-    }
-
-    const unenrollUser = async (course: any) => {
-        const status = await userClient.unenrollUserFromCourse(course);  
-        //const updated = await userClient.findMyEnrollments();
-        setEnrollmentList((e) => e.filter((e) => e.course !== course._id)); 
-        const updatedCourses = await userClient.findMyCourses(); 
-        dispatch(setCourses(updatedCourses));
-    }
+  const updateEnrollment = async (courseId: string, enrolled: boolean) => {
+   if (enrolled) {
+     await userClient.enrollIntoCourse(currentUser._id, courseId);
+   } else {
+     await userClient.unenrollFromCourse(currentUser._id, courseId);
+   }
+   dispatch(setCourses(
+     courses.map((course: any) => {
+       if (course._id === courseId) {
+         return { ...course, enrolled: enrolled };
+       } else {
+         return course;
+       }
+     }))
+   );
+ };
+    // const unenrollUser = async (course: any) => {
+    //     const status = await userClient.unenrollUserFromCourse(course);  
+    //     //const updated = await userClient.findMyEnrollments();
+    //     setEnrollmentList((e) => e.filter((e) => e.course !== course._id)); 
+    //     const updatedCourses = await userClient.findMyCourses(); 
+    //     dispatch(setCourses(updatedCourses));
+    // }
 
 useEffect(() => {
-  let mounted = true;
-  (async () => {
-    try {
-      const me = currentUser ?? (await userClient.getCurrentUser());
-      if (!mounted) return;
+  // let mounted = true;
+  // (async () => {
+  //   try {
+  //     const me = currentUser ?? (await userClient.getCurrentUser());
+  //     if (!mounted) return;
  
-      if (!me) {
-        redirect("/Account/Signin");
-        return;
-      }
+  //     if (!me) {
+  //       redirect("/Account/Signin");
+  //       return;
+  //     }
  
+  if (!currentUser) redirect("/Account/Signin");
  
-      await fetchCourses();
-      if (me.role === "STUDENT") await getMyEnrollments();
-    } catch (e) {
+    if (enrolling) {
+    fetchCourses();
+   } else {
+    findCoursesForUser();
+   }
+    //   if (me.role === "STUDENT") await getMyEnrollments();
+    // } catch (e) {
      
-      redirect("/Account/Signin");
-    }
-  })();
-  return () => { mounted = false; };
-}, []);
+    //   redirect("/Account/Signin");
+    // }
+  // })();
+  //return () => { mounted = false; };
+}, [currentUser, enrolling]);
 
   return (
     <div className="p-4" id="wd-dashboard">
-      <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
+      <h1 id="wd-dashboard-title">Dashboard</h1> 
+        <hr />
       {isFaculty && (
         <>
           <h5>
@@ -168,7 +203,10 @@ useEffect(() => {
         Published Courses ({courses.length})
       </h2>
       <hr />
-      {isStudent && (
+      <button onClick={() => setEnrolling(!enrolling)} className="float-end btn btn-primary" >
+          {enrolling ? "My Courses" : "All Courses"}
+        </button>
+      {/* {isStudent && (
         <>
           <Button
             id="wd-student-enrollment-btn"
@@ -179,11 +217,11 @@ useEffect(() => {
             Enrollments
           </Button>
         </>
-      )}
+      )} */}
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4">
-          {displayedCourses.map((course: any) => {
-            const isEnrolled = courseIds.has(course._id)
+          {courses.filter(Boolean).map((course: any) => {
+            const isEnrolled = course.enrolled;
             return (
             <Col className="wd-dashboard-course" style={{ width: "300px" }}>
               <Card>
@@ -193,10 +231,10 @@ useEffect(() => {
                 >
                   <CardImg
                     variant="top"
-                    src={course.image}
+                    src={course.image || "/images/reactjs.jpg"}
                     width="100%"
                     height={160}
-                    alt="reactjs"
+                    alt="course pic"
                   />
                   <CardBody>
                     <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
@@ -214,6 +252,7 @@ useEffect(() => {
                         <Button
                           onClick={(event) => {
                             event.preventDefault();
+                            event.stopPropagation();
                             onDeleteCourse(course._id);
                           }}
                           className="btn btn-danger float-end"
@@ -233,9 +272,18 @@ useEffect(() => {
                         </Button>
                       </>
                     )}
+                    {enrolling && (
+              <button onClick={(event) => {
+                        event.preventDefault();
+                        updateEnrollment(course._id, !course.enrolled);
+                      }}
+              className={`btn ${ course.enrolled ? "btn-danger" : "btn-success" } float-end mt-2`} >
+                {course.enrolled ? "Unenroll" : "Enroll"}
+              </button>
+            )}
                     {isStudent && showAll && (
                       <>
-                        {isEnrolled ? (
+                        {/* {isEnrolled ? (
                           <Button
                             variant="danger"
                             className="me-1 float-end"
@@ -256,7 +304,7 @@ useEffect(() => {
                             }}>
                             Enroll
                           </Button>
-                        )}
+                        )} */}
                       </>
                     )}
                   </CardBody>

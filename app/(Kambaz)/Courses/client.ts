@@ -8,6 +8,14 @@ const api = axios.create({
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
+
+const COURSES_API = `${BASE_URL}/api/courses`;
+
+export const findUsersForCourse = async (courseId: string) => {
+ //const response = await axios.get(`${COURSES_API}/${courseId}/users`);
+ const response = await api.get(`/api/courses/${courseId}/users`);
+ return response.data;
+};
  
 export const fetchAllCourses = async () => {
   const { data } = await api.get("/api/courses");
